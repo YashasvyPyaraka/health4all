@@ -19,7 +19,7 @@
  <!-- begin wrap contents of page  -->
  <div id="wrapper">
 
-
+outcome_date
 
  <!--menubar-->
  <?php include '../menubar_reports.php' ;?>
@@ -302,16 +302,133 @@ $csv_output .= $totalM . "\n ";
  }
  
  else
- 
  {
  echo "<br><br><b style=\"color:red;\">No data in this given dates</b>";
  } ?>
+
+<link rel="stylesheet" href="../amcharts/samples/style.css" type="text/css">
+<script src="../amcharts/amcharts/amcharts.js" type="text/javascript"></script>
+  
+<div id="chartdiv" align="center" style="width: 800px; height: 400px;"></div>		
+		
+<script type="text/javascript">
+            var chart;
+            var chartData = [
+				<?php
+				$query_chart = "SELECT
+				Month(admit_date) \"Month\",
+				Year(admit_date) \"Year\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome!= 'transfer' THEN 1 ELSE 0 END) \"IP\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome!= 'transfer' THEN 1 ELSE 0 END) \"TIP\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome = '' THEN 1 ELSE 0 END) \"ND\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome = '' THEN 1 ELSE 0 END) \"TND\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome = 'discharge' THEN 1 ELSE 0 END) \"D\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome = 'discharge' THEN 1 ELSE 0 END) \"TD\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome = 'lama' THEN 1 ELSE 0 END) \"L\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome = 'lama' THEN 1 ELSE 0 END) \"TL\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome = 'absconded' THEN 1 ELSE 0 END) \"A\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome = 'absconded' THEN 1 ELSE 0 END) \"TA\",
+				SUM(CASE WHEN visit_id = admit_id AND outcome = 'death' THEN 1 ELSE 0 END) \"DH\",
+				SUM(CASE WHEN visit_id!= admit_id AND outcome = 'death' THEN 1 ELSE 0 END) \"TDH\"
+				FROM patient_visits INNER JOIN patients ON patient_visits.patient_id = patients.patient_id
+				WHERE  ((admit_date BETWEEN '".$_POST['from_date']. "' AND '" . $_POST['to_date'] ."') AND (visit_type='IP')" . $dept . $unit . $area . $gender . $weight . $gest . $in_out_born . $age . ")
+				GROUP BY Month(admit_date), Year(admit_date)
+				ORDER BY Year(admit_date),Month(admit_date) ASC";
+				$result_chart = mysql_query($query_chart);
+				$i=1;
+				while ($record_chart = mysql_fetch_array($result_chart))
+				{
+					$totalIP=0;
+ 					$totalIP=$record_chart['IP']+$record_chart['TIP'];
+					$totalL=$record_chart['L']+$record_chart['TL'];
+					$totalDH=$record_chart['DH']+$record_chart['TDH'];
+					$totalA=$record_chart['A']+$record_chart['TA'];
+					
+
+				if($i!=1){ echo","; }
+				echo "{ Year:" . $record_chart['Year'] . ", LAMA:" . $totalL . ", DEATH:" . $totalDH . ", ABSCONDED:" . $totalA . ", ADMISSIONS:" . $totalIP . ",}";
+				$i++;
+				}?>
+			];
+
+
+            AmCharts.ready(function () {
+                // SERIAL CHART  
+                chart = new AmCharts.AmSerialChart();
+                chart.pathToImages = "../amcharts/amcharts/images/";
+                chart.dataProvider = chartData;
+                chart.categoryField = "Year";
+                chart.startDuration = 1;
+
+                // AXES
+                // category
+                var categoryAxis = chart.categoryAxis;
+                categoryAxis.gridPosition = "start";
+				categoryAxis.parseDates = false;
+				
+				
+                // value
+                // in case you don't want to change default settings of value axis,
+                // you don't need to create it, as one value axis is created automatically.
+                
+                // GRAPHS
+                // column graph
+                var graph1 = new AmCharts.AmGraph();
+                graph1.type = "column";
+                graph1.title = "Lama";
+                graph1.valueField = "LAMA";
+                graph1.lineAlpha = 0;
+                graph1.fillAlphas = 1;
+				chart.addGraph(graph1);  	
+				
+				var graph2 = new AmCharts.AmGraph();
+                graph2.type = "column";
+                graph2.title = "Death";
+                graph2.valueField = "DEATH";
+                graph2.lineAlpha = 0;
+                graph2.fillAlphas = 1;
+				chart.addGraph(graph2);
+				
+				var graph3 = new AmCharts.AmGraph();
+                graph3.type = "column";
+                graph3.title = "Absconded";
+                graph3.valueField = "ABSCONDED";
+                graph3.lineAlpha = 0;
+                graph3.fillAlphas = 1;
+				chart.addGraph(graph3);	
+
+				var graph4 = new AmCharts.AmGraph();
+                graph4.type = "column";
+                graph4.title = "Admissions";
+                graph4.valueField = "ADMISSIONS";
+                graph4.lineAlpha = 0;
+                graph4.fillAlphas = 1;
+				chart.addGraph(graph4);	
+
+                // var graph2 = new AmCharts.AmGraph();
+                // graph2.type = "line";
+                // graph2.title = "Line";
+                // graph2.valueField = "Line";
+                // graph2.lineThickness = 2;
+                // graph2.bullet = "round";
+                // chart.addGraph(graph2);
+
+                // LEGEND                
+                var legend = new AmCharts.AmLegend();
+                chart.addLegend(legend);
+
+                // WRITE
+                chart.write("chartdiv");
+            });
+        </script>
+
+
 <form name="export" action="export.php" method="post">
 <input type="submit" value="Export table to CSV">
-<input type="submit" value="Print report" onclick="window.print();">
 <input type="hidden" value="<?php echo $csv_hdr; ?>" name="csv_hdr">
 <input type="hidden" value="<?php echo $csv_output; ?>" name="csv_output">
 </form>
+<input type="submit" value="Print report" onclick="window.print();">
 <?php
  }
 

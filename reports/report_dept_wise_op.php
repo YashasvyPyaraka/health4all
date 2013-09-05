@@ -1,4 +1,4 @@
- <?php $thispage = "reports"; ?>
+<?php $thispage = "reports"; ?>
 <!DOCTYPE html>
  <html>
 
@@ -9,6 +9,8 @@
 	<script src="../scripts/jquery.ui.widget.js"></script>
 	<script src="../scripts/datepicker.js"></script>
 	<script src="../scripts/registration.js"></script>
+	 <link rel="stylesheet" href="../amcharts/images/style.css" type="text/css">
+        <script src="../amcharts/amcharts/amcharts.js" type="text/javascript"></script>         
  <!-- link to css style sheet -->
 	<link rel="stylesheet" href="../scripts/jquery-ui.css" />
  	<link rel="stylesheet" type="text/css" href="../health4all.css">
@@ -86,4 +88,6 @@ echo "<form action=\"report_dept_wise_op.php\" method=\"post\">"; ?>
  
  require_once 'report_classes/report_page_footer.php'; 	//foot section of the page includes: report table & page footer.
  ?>
+     
+
  

@@ -9,9 +9,6 @@
 	<script src="../scripts/jquery.ui.widget.js"></script>
 	<script src="../scripts/datepicker.js"></script>
 	<script src="../scripts/registration.js"></script>
-
-
-	
  <!-- link to css style sheet -->
 	<link rel="stylesheet" href="../scripts/jquery-ui.css" />
  	<link rel="stylesheet" type="text/css" href="../health4all.css">
@@ -108,7 +105,7 @@ require_once "report_classes/table_form_oc.php";?>
 
  
  $query= "SELECT
-          	patients.patient_id \"pid\", visit_id, admit_id, hosp_file_no, name, mother_name, father_name, place, phone, gender, dob, admit_date, outcome_date, provisional_diagnosis, outcome
+          	patients.patient_id \"pid\", visit_id, admit_id, hosp_file_no, name, mother_name, father_name, place, phone, gender, dob, admit_date, outcome_date, provisional_diagnosis, outcome, DATEDIFF( outcome_date, admit_date ) AS Duration
 			FROM patient_visits
 			INNER JOIN patients ON patient_visits.patient_id = patients.patient_id
 			WHERE  ((outcome_date BETWEEN '".$_POST['from_date']. "' AND '" . $_POST['to_date'] ."') AND (admit_id=visit_id) AND (visit_type='IP')" . $dept . $unit . $area . $gender . $outcome . ")";
@@ -119,7 +116,7 @@ require_once "report_classes/table_form_oc.php";?>
  echo "<div class=\"scrollbar\" style=\"width: 950px; height: 400px;\">";
  echo "<table id=\"table-his\">";
  echo "<thead>";
- echo "<tr><th>S.no</th>";  echo "<th>Patient ID</th>";  echo "<th>Visit ID</th>";  echo "<th>Admit ID</th>"; echo "<th>IP NO</th>"; echo "<th>Patient Name</th>"; echo "<th>Mother's / Father's Name</th>"; echo "<th>Address/Phone</th>"; echo "<th>Sex</th>"; echo "<th>Age at Admission (days)</th>"; echo "<th>Provisional Diagnosis</th>"; echo "<th>Admit Date</th>"; echo "<th>Outcome Date</th>"; echo "<th>Outcome</th></tr>"; 
+ echo "<tr><th>S.no</th>";  echo "<th>Patient ID</th>";  echo "<th>Visit ID</th>";  echo "<th>Admit ID</th>"; echo "<th>IP NO</th>"; echo "<th>Patient Name</th>"; echo "<th>Mother's / Father's Name</th>"; echo "<th>Address/Phone</th>"; echo "<th>Sex</th>"; echo "<th>Age at Admission (days)</th>"; echo "<th>Provisional Diagnosis</th>"; echo "<th>Admit Date</th>"; echo "<th>Outcome Date</th>";echo "<th>Duration of Stay</th>"; echo "<th>Outcome</th></tr>"; 
  echo "</thead>";
  echo "<tbody>";
  
@@ -141,6 +138,7 @@ require_once "report_classes/table_form_oc.php";?>
  echo "<td>" . $record['provisional_diagnosis'] . "</td>";
  echo "<td>" . date('dMY', strtotime($record['admit_date'])) . "</td>";
  echo "<td>" . date('dMY', strtotime($record['outcome_date'])) . "</td>";
+ echo "<td>" . $record['Duration'] . "</td>";
  echo "<td>" . $record['outcome'] . "</td>";
  echo "</tr>";
  $i++;

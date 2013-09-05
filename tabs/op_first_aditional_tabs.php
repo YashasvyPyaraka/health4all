@@ -201,33 +201,17 @@ span.link a:hover span
 							<td><input type="text" name="bc_no" style='text-transform:uppercase'></td>
 						</tr>
 						<tr>
-							<td>Gestation (in weeks)</td>
+							<td>Gestation(in weeks)</td>
 							<td>
-								<input type="text" id="gestation" name="gestation" tabindex="2" onchange="DropDownIndexClear('gesttextbox');" style="width:133px; position: absolute; z-index: 1; margin-top:-13px;" />
-								<select name="" id="gesttextbox" tabindex="1000" onchange="DropDownTextToBox(this,'gestation');" style="position: absolute; z-index: 0; width: 155px;margin-top:-13px;" >
-								<?php
-									$gestation=array('24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44');
-								for($i = 0, $size = count($gestation); $i < $size; $i++)
-								{
-										echo "<option value=\"".$gestation[$i]."\" title=\"".$gestation[$i]."\">".$gestation[$i]."</option>";
-								}
-								?>
-								</select>
-								<script language="javascript" type="text/javascript">
-									DropDownIndexClear("edqualtextbox");
-								</script>
+							 	<input type="text" name="gestation" style='text-transform:capitalize'>
 							</td>
-							<td>Delivery Mode</td>
+							<td>Gestation</td>
 							<td>
-								<select name="delivery_mode" style="width:155px">
+								<select name="gestation_type" style="width:155px">
 									<option value="" selected>---SELECT---</option>
-									<option value="SPVD">SPVD</option>
-									<option value="EL-LSCS">EL-LSCS</option>
-									<option value="EM-LSCS">EM-LSCS</option>
-									<option value="Assisted Breech Delivery">Assisted Breech Delivery</option>
-									<option value="Forcepts">Forcepts</option>
-									<option value="Vaccuum Extraction">Vaccuum Extraction</option>
-									<option value="Episiotomy">Episiotomy</option>
+									<option value="Term">Term</option>
+									<option value="Pre_Term">Pre-Term</option>
+									<option value="Post_Term">Post-Term</option>
 								</select>
 							</td>
 						</tr>
@@ -238,6 +222,7 @@ span.link a:hover span
 								<input type="radio" id="del_home" name="Del_location" ondblclick="this.checked=!this.checked" value="home">Home  
 								<input type="radio" id="del_enroute" name="Del_location" ondblclick="this.checked=!this.checked" value="enroute">Enroute
 							</td>
+							
 						</tr>
 						<tbody id="del_type" hidden>
 							<tr>
@@ -263,10 +248,24 @@ span.link a:hover span
 							</tr>
 						</tbody>
 						<tr>
+							<td>Delivery Mode</td>
+								<td>
+									<select name="delivery_mode" style="width:155px">
+									<option value="" selected>---SELECT---</option>
+									<option value="SPVD">SPVD</option>
+									<option value="EL-LSCS">EL-LSCS</option>
+									<option value="EM-LSCS">EM-LSCS</option>
+									<option value="Assisted Breech Delivery">Assisted Breech Delivery</option>
+									<option value="Forcepts">Forcepts</option>
+									<option value="Vaccuum Extraction">Vaccuum Extraction</option>
+									<option value="Episiotomy">Episiotomy</option>
+								</select>
+							</td>
 							<td>Hospital Name / Enroute Mode</td>
 							<td>
 								<input type="text" name="Del_place" style='text-transform:capitalize'>
 							</td>
+							
 						</tr>
 						<tr>
 							<td>Weight at Birth</td>

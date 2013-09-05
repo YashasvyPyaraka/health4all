@@ -281,108 +281,83 @@ span.link a:hover span
 							</td>
 						</tr>
 						<tr>
-							<td>Gestation (in weeks)</td>
+							<td>Gestation(in weeks)</td>
 							<td>
-								<?php
-									if($record['gestation']==0)
-									{
-										echo"<input type=\"text\" id=\"gestation\" name=\"gestation\" tabindex=\"2\" onchange=\"DropDownIndexClear('gesttextbox');\" style=\"width:150px;position: absolute; z-index: 1; margin-top:-13px;\" value=\"\">
-											<select name=\"\" id=\"occtextbox\" tabindex=\"1000\" onchange=\"DropDownTextToBox(this,'gestation');\" style=\"position: absolute;z-index: 0; width: 173px;margin-top:-13px;\" > ";
-										$gestation=array('24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44');
-										for($i = 0, $size = count($gestation); $i < $size; $i++)
-										{
-												echo "<option value=\"".$gestation[$i]."\" >".$gestation[$i]."</option>";
-										}
-										echo "</select>
-											<script language=\"javascript\" type=\"text/javascript\">
-												DropDownIndexClear(\"gesttextbox\");
-											</script>";
-									}
-									if($record['gestation']!=0)
-									{ 
-										echo "<input type=\"text\" id=\"gestation\" name=\"gestation\" tabindex=\"2\"
-					onchange=\"DropDownIndexClear('gesttextbox');\" style=\"width:150px;
-					position: absolute; z-index: 1; margin-top:-13px;\" value=\"" . $record['gestation'] . "\">
-										<select name=\"\" id=\"occtextbox\" tabindex=\"1000\"
-					onchange=\"DropDownTextToBox(this,'gestation');\" style=\"position: absolute;
-					 z-index: 0; width: 173px;margin-top:-13px;\" > ";
-									$gestation=array('24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44');
-										for($i = 0, $size = count($gestation); $i < $size; $i++)
-										{
-												echo "<option value=\"".$gestation[$i]."\" >".$gestation[$i]."</option>";
-										}
-										echo "</select>
-											<script language=\"javascript\" type=\"text/javascript\">
-												DropDownIndexClear(\"gesttextbox\");
-											</script>";
-									}
-								?>
+								<?php echo "<input type=\"text\" name=\"gestation\" style='text-transform:capitalize' value=\"" . $record['gestation'] . "\">";
+							?>
 							</td>
-							<td>Delivery Mode</td>
+							<td>Gestation</td>
 							<td>
-								<select name="delivery_mode">
-									<option value=""<?php if ($record['delivery_mode'] == '') echo ' selected="selected"'; ?>>---SELECT---</option>
-									<option value="SPVD"<?php if ($record['delivery_mode'] == 'SPVD') echo ' selected="selected"'; ?>>SPVD</option>
-									<option value="EL-LSCS"<?php if ($record['delivery_mode'] == 'EL-LSCS') echo ' selected="selected"'; ?>>EL-LSCS</option>
-										<option value="EM-LSCS"<?php if ($record['delivery_mode'] == 'EM-LSCS') echo ' selected="selected"'; ?>>EM-LSCS</option>
-										<option value="Assisted Breech Delivery"<?php if ($record['delivery_mode'] == 'Assisted Breech Delivery') echo ' selected="selected"'; ?>>Assisted Breech Delivery</option>
-										<option value="Forcepts"<?php if ($record['delivery_mode'] == 'Forcepts') echo ' selected="selected"'; ?>>Forcepts</option>
-										<option value="Vaccuum Extraction"<?php if ($record['delivery_mode'] == 'Vaccuum Extraction') echo ' selected="selected"'; ?>>Vaccuum Extraction</option>
-										<option value="Episiotomy"<?php if ($record['delivery_mode'] == 'Episiotomy') echo ' selected="selected"'; ?>>Episiotomy</option>
+								<select name="gestation_type">
+									<option value="" <?php if ($record['gestation_type'] == '') echo ' selected="selected"'; ?>>---SELECT---</option>
+									<option value="Term" <?php if ($record['gestation_type'] == 'Term') echo ' selected="selected"'; ?>>Term</option>
+									<option value="Pre_Term" <?php if ($record['gestation_type'] == 'Pre_Term') echo ' selected="selected"'; ?>>Pre-Term</option>
+									<option value="Post_Term" <?php if ($record['gestation_type'] == 'Post_Term') echo ' selected="selected"'; ?>>Post-Term</option>
 								</select>
 							</td>
-						</tr>
-						<tr>
-							<td>Delivery Location</td>
-							<td colspan="3">
-								<?php
-									$hosp = '';
-									$hom = '';
-									$enr = '';
-								if($record['delivery_location']=="hospital"){$hosp = 'checked="checked"';} else if($record['delivery_location']=="home") {$hom = 'checked="checked"';} else if($record['delivery_location']=="enroute") {$enr = 'checked="checked"';}
+					</tr>
+					<tr>
+						<td>Delivery Location</td>
+						<td colspan="3">
+							<?php
+								$hosp = ''; 
+								$hom = ''; 
+								$enr = '';
+								if($record['delivery_location']=="hospital")
+								{
+									$hosp = 'checked="checked"';
+								} 
+								else if($record['delivery_location']=="home") 
+								{
+									$hom = 'checked="checked"';
+								} 
+								else if($record['delivery_location']=="enroute") 
+								{
+									$enr = 'checked="checked"';
+								}
 								echo "<input type=\"radio\" id=\"del_loc\" name=\"Del_location\" ondblclick=\"this.checked=!this.checked\" value=\"hospital\"" . $hosp . ">Hospital</input>";
 								echo "<input type=\"radio\" id=\"del_home\" name=\"Del_location\" ondblclick=\"this.checked=!this.checked\" value=\"home\"" . $hom . ">Home</input>";
 								echo "<input type=\"radio\" id=\"del_enroute\" name=\"Del_location\" ondblclick=\"this.checked=!this.checked\" value=\"enroute\"" . $enr . ">Enroute</input>";
-								?>
-							</td>
-						</tr>
-						<tbody id="del_type" >
-							<tr>
-								<td>Type of Hospital</td>
-								<td colspan="3">
-									<?php
-										$gov = ''; 
-										$pri = '';
-										if($record['hospital_type']=="government")
-										{
-											$gov = 'checked="checked"';
-										} 
-										else if($record['hospital_type']=="private")
-										{
-											$pri = 'checked="checked"';
-										}
-										echo "<input type=\"radio\" name=\"hospital_type\" ondblclick=\"this.checked=!this.checked\" value=\"government\"" . $gov . ">Government</input>";
-										echo "<input type=\"radio\" name=\"hospital_type\" ondblclick=\"this.checked=!this.checked\" value=\"private\"" . $pri . ">Private</input>";
-									?>
-								</td>
-							</tr>
-							<tr>
+							?>
+						</td>
+					</tr>
+					<tbody id="del_type">
+					<tr>
+						<td>Type of Hospital</td>
+						<td colspan="3">
+						<?php
+							$gov = ''; 
+							$pri = '';
+							if($record['hospital_type']=="government")
+							{
+								$gov = 'checked="checked"';
+							}
+							else if($record['hospital_type']=="private")
+							{
+								$pri = 'checked="checked"';
+							}
+							echo "<input type=\"radio\" name=\"hospital_type\" ondblclick=\"this.checked=!this.checked\" value=\"government\"" . $gov . ">Government</input>";
+							echo "<input type=\"radio\" name=\"hospital_type\" ondblclick=\"this.checked=!this.checked\" value=\"private\"" . $pri . ">Private</input>";
+						?>
+						</td>
+					</tr>
+					<tr>
 						<td>Delivery Location Type</td>
 						<td>
-							<?php
-								$in = ''; 
-								$out = '';
-								if($record['delivery_location_type']=="IN")
-								{
-									$in = 'checked="checked"';
-								} 
-								else if($record['delivery_location_type']=="OUT")
-								{
-									$out = 'checked="checked"';
-								}
-								echo "<input type=\"radio\" name=\"Delivery_loc_type\" ondblclick=\"this.checked=!this.checked\" value=\"IN\"" . $in . ">In-Born</input>";
-								echo "<input type=\"radio\" name=\"Delivery_loc_type\" ondblclick=\"this.checked=!this.checked\" value=\"OUT\"" . $out . ">Out-Born</input>";
-							?>
+						<?php
+							$in = ''; 
+							$out = '';
+							if($record['delivery_location_type']=="IN")
+							{
+								$in = 'checked="checked"';
+							} 
+							else if($record['delivery_location_type']=="OUT")
+							{
+								$out = 'checked="checked"';
+							}
+							echo "<input type=\"radio\" name=\"Delivery_loc_type\" ondblclick=\"this.checked=!this.checked\" value=\"IN\"" . $in . ">In-Born</input>";
+							echo "<input type=\"radio\" name=\"Delivery_loc_type\" ondblclick=\"this.checked=!this.checked\" value=\"OUT\"" . $out . ">Out-Born</input>";
+						?>
 						</td>
 					</tr>
 					<tr>
@@ -391,7 +366,7 @@ span.link a:hover span
 							<?php
 								$bk = ''; 
 								$ubk = '';
-								if($record['delivery_plan']=="booked")
+								if($record['delivery_plan']=="booked")	
 								{
 									$bk = 'checked="checked"';
 								} 
@@ -405,12 +380,25 @@ span.link a:hover span
 						</td>
 					</tr>
 				</tbody>
-				<tr>
-					<td>Hospital Name / Enroute Mode </td>
-					<td>
-						<?php echo "<input type=\"text\" name=\"Del_place\" style='text-transform:capitalize' value=\"" . $record['delivery_place'] . "\">";?>
-					</td>
-				</tr>
+					<tr>
+						<td>Delivery Mode</td>
+						<td>
+							<select name="delivery_mode">
+								<option value=""<?php if ($record['delivery_mode'] == '') echo ' selected="selected"'; ?>>---SELECT---</option>
+									<option value="SPVD"<?php if ($record['delivery_mode'] == 'SPVD') echo ' selected="selected"'; ?>>SPVD</option>
+									<option value="EL-LSCS"<?php if ($record['delivery_mode'] == 'EL-LSCS') echo ' selected="selected"'; ?>>EL-LSCS</option>
+									<option value="EM-LSCS"<?php if ($record['delivery_mode'] == 'EM-LSCS') echo ' selected="selected"'; ?>>EM-LSCS</option>
+									<option value="Assisted Breech Delivery"<?php if ($record['delivery_mode'] == 'Assisted Breech Delivery') echo ' selected="selected"'; ?>>Assisted Breech Delivery</option>
+									<option value="Forcepts"<?php if ($record['delivery_mode'] == 'Forcepts') echo ' selected="selected"'; ?>>Forcepts</option>
+									<option value="Vaccuum Extraction"<?php if ($record['delivery_mode'] == 'Vaccuum Extraction') echo ' selected="selected"'; ?>>Vaccuum Extraction</option>
+									<option value="Episiotomy"<?php if ($record['delivery_mode'] == 'Episiotomy') echo ' selected="selected"'; ?>>Episiotomy</option>
+							</select>
+						</td>	
+						<td>Hospital Name / Enroute Mode</td>
+						<td>
+							<?php echo "<input type=\"text\" name=\"Del_place\" style='text-transform:capitalize' value=\"" . $record['delivery_place'] . "\">";?>
+						</td>
+					</tr>
 				<tr>
 					<td>Weight at Birth</td>
 					<td>
@@ -681,7 +669,8 @@ span.link a:hover span
 					</table>	
 					<div class="scrollbar" style=" height: 180px; ">
 					<table id="dataTable">
-						<tr id="dataTablehead" hidden>
+						<tr id="dataTablehead">
+							<th>Check</th>
 							<th>Date</th>
 							<th>Time</th>
 							<th>Treatment Type</th>
@@ -689,7 +678,7 @@ span.link a:hover span
 							<th>Duration(Hrs,Dys,Mns)</th>
 							<th>Notes</th>
 							</tr>
-							<tr hidden>
+							<tr>
 								<td><input type="checkbox" name="chk"/></td>
 								<td><input type="text" name="treatment_date[]" ></td>
 								<td><input type="text" name="treatment_time[]" ></td>
@@ -704,7 +693,6 @@ span.link a:hover span
 					$query_obstetric= "SELECT * 
 							FROM patient_treatments 
 							WHERE visit_id='".$record['visit_id']."'";
-					
 					$result_obstetric = mysql_query($query_obstetric);
 					if(mysql_num_rows($result_obstetric)!= 0) { ?>
 					<tr>

@@ -197,17 +197,16 @@ span.link a:hover span
 						</td>
 						</tr>
 						<tr>
-						<td>Gestation</td>
-						<td>
-						<?php
-						if($record['gestation']==0) echo "<input type=\"text\" name=\"gestation\" value=\"\" readonly >";
-						else echo "<input type=\"text\" name=\"gestation\" value=\"" . $record['gestation'] . "\" readonly >";
-						?>
-						</td>
-						<td>Delivery Mode</td>
-						<td>
-						<?php echo "<input type=\"text\" name=\"delivery_mode\" value=\"" . $record['delivery_mode'] . "\" readonly >";?>
-						</td>
+						<td>Gestation(in weeks)</td>
+							<td>
+								<?php echo "<input type=\"text\" name=\"gestation\" style='text-transform:capitalize' value=\"" . $record['gestation'] . "\" readonly>";
+							?>
+							</td>
+							<td>Gestation</td>
+							<td>
+							<?php echo "<input type=\"text\" name=\"gestation_type\" style='text-transform:capitalize' value=\"" . $record['gestation_type'] . "\" readonly>";
+							?>	
+							</td>
 						</tr>
 
 						<tr>
@@ -252,6 +251,10 @@ span.link a:hover span
 						</td>
 						</tr>
 						<tr>
+						<td>Delivery Mode</td>
+						<td>
+						<?php echo "<input type=\"text\" name=\"delivery_mode\" value=\"" . $record['delivery_mode'] . "\" readonly >";?>
+						</td>
 						<td>Hospital Name / Enroute Mode</td>
 						<td>
 						<?php echo "<input type=\"text\" name=\"Del_place\" value=\"" . $record['delivery_place'] . "\" readonly >";?>
